@@ -1,0 +1,24 @@
+upstream campaign_server {
+    server localhost:8001 fail_timeout=1;
+}
+
+server {
+    listen 80;
+    listen [::]:80 default_server ipv6only=on;
+    server_name tdphillips.org;
+    access_log /var/log/nginx/guni-access.log;
+    error_log /var/log/nginx/guni-error.log info;
+    keepalive_timeout 5;
+    charset utf-8;
+    root /home/tdphillips/projects/campaigns/static;
+    location / {
+        try_files $uri @campaign_app;
+    }
+    location @campaign_app {
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header Host $http_host;
+        proxy_redirect off;
+
+        proxy_pass http://campaign_server;
+    }
+}
