@@ -1,10 +1,9 @@
 upstream campaign_server {
-    server localhost:8001 fail_timeout=1;
+    server localhost:8000 fail_timeout=1;
 }
 
 server {
     listen 80;
-    listen [::]:80 default_server ipv6only=on;
     server_name tdphillips.org;
     access_log /var/log/nginx/guni-access.log;
     error_log /var/log/nginx/guni-error.log info;
