@@ -1,6 +1,6 @@
 import os
 from secrets import SECRET_KEY, DB_USER, DB_PASS
-BASE_DIR = os.path.dirname(os.path.dirname(__file__))
+BASE_DIR = os.path.dirname(__file__)
 
 
 DEBUG = True
@@ -8,7 +8,6 @@ DEBUG = True
 TEMPLATE_DEBUG = True
 
 ALLOWED_HOSTS = []
-
 
 INSTALLED_APPS = (
     'django.contrib.admin',
@@ -18,7 +17,42 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'gunicorn',
+    'compressor',
 )
+
+PROJECT_APPS = (
+    'campaign',
+)
+
+INSTALLED_APPS += PROJECT_APPS
+
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, 'static'),
+)
+
+STATICFILES_FINDERS = (
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+    'compressor.finders.CompressorFinder',            
+)
+
+STATIC_ROOT = ''
+
+STATIC_URL = '/static/'
+
+COMPRESS_PRECOMPILERS = (
+    ('text/less', 'lessc {infile} {outfile}'),
+)
+
+COMPRESS_ROOT = os.path.join(BASE_DIR, 'static')
+
+COMPRESS_OUTPUT_DIR = 'CACHE'
+
+COMPRESS_CSS_HASHING_METHOD = 'hash'
+
+COMPRESS_OFFLINE = True
+
+COMPRESS_ENABLED = True
 
 MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -52,11 +86,9 @@ USE_L10N = True
 
 USE_TZ = True
 
-
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/1.6/howto/static-files/
-
-STATIC_URL = '/static/'
+TEMPLATE_DIRS = (
+    os.path.join(BASE_DIR, 'templates')
+)
 
 LOGGING = {
     'version': 1,
