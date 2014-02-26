@@ -18,6 +18,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'gunicorn',
     'compressor',
+    'south',
 )
 
 PROJECT_APPS = (

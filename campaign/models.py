@@ -1,3 +1,42 @@
+from django.contrib.auth.models import User
 from django.db import models
 
-# Create your models here.
+VOTE_CHOICES = (
+    ('RANK', 'Ranking'),
+    ('POINT', 'Point Assignment'),
+)
+
+PRIVACY_CHOICES = (
+    ('PR', 'Private'),
+    ('PU', 'Public'),
+    ('RO', 'Registered Only'),
+    ('IO', 'Invite Only'),
+    ('LO', 'Anyone With Link'),
+)
+
+
+class Prospectus(models.Model):
+    owner = models.ForeignKey(User)
+    privacy_status = models.CharField(max_length=2,
+                                      choices=PRIVACY_CHOICES,
+                                      default=PRIVACY_CHOICES[0][0])
+    private_votes = models.BooleanField(default=False)
+    vote_type = models.CharField(max_length=10,
+                                 choices=VOTE_CHOICES,
+                                 default=VOTE_CHOICES[0][0])
+    point_multiplier = models.IntegerField(blank=True, null=True)
+    
+    class Meta:
+        verbose_name_plural = 'prospectuses'
+
+
+class Campaign(models.Model):
+    prospectus = models.ForeignKey(Prospectus)
+    genre = models.CharField(max_length=255)
+    description = models.TextField()
+
+
+class Vote(models.Model):
+    voter = models.ForeignKey(User)
+    campaign = models.ForeignKey(Campaign)
+    rating = models.IntegerField()

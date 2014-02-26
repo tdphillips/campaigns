@@ -1,3 +1,8 @@
 from django.contrib import admin
 
-# Register your models here.
+from campaign.models import Prospectus, Campaign, Vote
+
+
+admin.site.register(Prospectus)
+admin.site.register(Campaign)
+admin.site.register(Vote)
