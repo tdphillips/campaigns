@@ -6,8 +6,8 @@ admin.autodiscover()
 
 urlpatterns = patterns('',
     url(r'^admin/', include(admin.site.urls)),
-    url(r'^$', 'campaign.views.index', name='index'),
-    url(r'^logout/$', 'campaign.views.logout_user', name='logout'),
+    url(r'^$', 'account.views.index', name='index'),
+    url(r'^account/', include('account.urls')),
 )
 
 if settings.DEBUG:

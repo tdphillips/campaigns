@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% load compress %}
+{% load staticfiles %}
+
+{% block head %}
+	<title>New User</title>
+{% endblock%}
+
+{% block content %}
+	<form action="{% url 'signup' %}" method="POST">
+		{% csrf_token %}
+		<table>
+			{{ new_user_form.as_table }}
+			<tr>
+				<td colspan=2>
+					<input type="submit" value="Sign up">
+				</td>
+			</tr>
+		</table>
+	</form>
+{% endblock %}

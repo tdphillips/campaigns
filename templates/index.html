@@ -7,6 +7,14 @@
 {% endblock%}
 
 {% block content %}
-	<h1>Test Page</h1>
-	<p>This is a test. This is only a test.</p>
+	{% if user.is_authenticated %}
+		Welcome, {{ user.username }}!
+	{% else %}
+		<form action="/" method="POST">
+			{% csrf_token %}
+			<input type="text" name="username" placeholder="username">
+			<input type="password" name="password" placeholder="password">
+			<input type="submit" value="Login">
+		</form>
+	{% endif %}
 {% endblock %}

@@ -1,16 +1,20 @@
 {% load staticfiles %}
+{% load compress %}
 <!DOCTYPE html>
 <html>
 	<head>
 		<script type="text/javascript" src="{% static 'zepto.min.js' %}"></script>
 		<link rel="stylesheet" type="text/css" href="{% static 'zimit.min.css' %}" />
-		
+		{% compress css %}		
+		<link rel="stylesheet" type="text/less" href="/static/base.less" />
+		{% endcompress %}
+
 		{% block head %}
 		{% endblock %}
 	</head>
 	<body>
 		<nav>
-			<a class="site">Campaign Prospector</a>
+			<a href="/" class="site">Campaign Prospector</a>
 			
 			<input id="expand-util" type="checkbox">
 			<label for="expand-util"><icon class="expand">menu</icon></label>
@@ -20,19 +24,19 @@
 				<li><a>Section 1</a></li>
 				<li><a href="{% url 'logout' %}">Logout</a></li>
 				{% else %}
-					<li><a>Register</a></li>
-					<li>
-						<form action="/" method="POST">
-							{% csrf_token %}
-							<input type="text" name="username" placeholder="username">
-							<input type="password" name="password" placeholder="password">
-							<input type="submit" value="Login">
-						</form>
-					</li>
+				<li><a href={% url 'signup' %}>Register</a></li>
+					{% if request.path != "/" %}
+					<li><a href="/">Login</a></li>
+					{% endif %}
 				{% endif %}
 			</ul>
 		</nav>
-		{% block content %}
-		{% endblock %}
+		
+		<div class="row">
+			<div class="c10 o1">
+				{% block content %}
+				{% endblock %}
+			</div>
+		</div>
 	</body>
 </html>
