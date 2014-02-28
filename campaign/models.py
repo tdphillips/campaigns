@@ -16,7 +16,7 @@ PRIVACY_CHOICES = (
 
 
 class Prospectus(models.Model):
-    owner = models.ForeignKey(User)
+    owner = models.ForeignKey(User, blank=True, null=True, default=None)
     privacy_status = models.CharField(max_length=2,
                                       choices=PRIVACY_CHOICES,
                                       default=PRIVACY_CHOICES[0][0])
