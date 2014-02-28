@@ -38,3 +38,4 @@ nosetests.xml
 secrets.py
 logs/
 CACHE/
+.idea/

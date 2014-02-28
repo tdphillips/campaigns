@@ -25,6 +25,9 @@ class Prospectus(models.Model):
                                  choices=VOTE_CHOICES,
                                  default=VOTE_CHOICES[0][0])
     point_multiplier = models.IntegerField(blank=True, null=True)
+    created = models.DateTimeField(auto_now_add=True, editable=False)
+    updated = models.DateTimeField(auto_now=True, editable=False)
+    stars = models.IntegerField(default=0, editable=False)
     
     class Meta:
         verbose_name_plural = 'prospectuses'
@@ -34,6 +37,8 @@ class Campaign(models.Model):
     prospectus = models.ForeignKey(Prospectus)
     genre = models.CharField(max_length=255)
     description = models.TextField()
+    created = models.DateTimeField(auto_now_add=True, editable=False)
+    updated = models.DateTimeField(auto_now=True, editable=False)
 
 
 class Vote(models.Model):

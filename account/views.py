@@ -7,18 +7,9 @@ from django.contrib.auth.views import logout
 
 
 def index(request):
-    if request.method == 'POST':
-        username = request.POST['username']
-        password = request.POST['password']
-        user = authenticate(username=username, password=password)
-        if user is not None:
-            if user.is_active:
-                login(request, user)
-            return redirect(reverse('index'))
-
     return render_to_response('index.html',
                               RequestContext(request))
-    
+
 
 def logout_user(request):
     logout(request)
@@ -35,4 +26,17 @@ def sign_up(request):
         form = UserCreationForm()
     return render_to_response('signup.html',
                               {'new_user_form': form},
+                              RequestContext(request))
+
+def log_in(request):
+    if request.method == 'POST':
+        username = request.POST['username']
+        password = request.POST['password']
+        user = authenticate(username=username, password=password)
+        if user is not None:
+            if user.is_active:
+                login(request, user)
+            return redirect(reverse('index'))
+
+    return render_to_response('login.html',
                               RequestContext(request))
