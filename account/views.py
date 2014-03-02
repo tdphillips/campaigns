@@ -4,10 +4,16 @@ from django.core.urlresolvers import reverse
 from django.shortcuts import redirect, render_to_response
 from django.template.context import RequestContext
 from django.contrib.auth.views import logout
+from campaign.models import Prospectus
 
 
 def index(request):
+    # TODO: also filter on privacy
+    starred = Prospectus.objects.order_by('-stars')[:10]
+    count = Prospectus.objects.count()
     return render_to_response('index.html',
+                              {'starred': starred,
+                               'count': count},
                               RequestContext(request))
 
 

@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% load compress %}
+{% load escapes %}
+
+{% block head_extras %}
+    <script>
+        var form_count = {{campaign_forms.total_form_count}};
+        var form = '{{campaign_forms.empty_form|escapejs}}';
+    </script>
+    {% compress js %}
+        <script type="text/javascript" src="/static/prospectus.js"></script>
+    {% endcompress %}
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-10 col-md-offset-1">
+                <form action="{% url 'create_edit_prospectus' %}" method="POST">
+                    {% csrf_token %}
+                    {{ campaign_forms.management_form }}
+                    {{ prospectus_form.as_ul }}
+                    <table id="campaigns">
+                    {{ campaign_forms.as_table }}
+                    </table>
+                    <button id="add-another">Add another</button>
+                    <input type="submit" value="Save">
+                </form>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

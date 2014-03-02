@@ -6,6 +6,23 @@
 
 {% block content %}
 	{% if user.is_authenticated %}
-		Welcome, {{ user.username }}!
+		<div class="row">
+            <div class="c10 o1">
+                <h1>Welcome, {{ user.username }}!</h1>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="c10 o1">
+                {% if count > 0 %}
+                <h2>Top {{ count }} starred prospectuses</h2>
+                <table>
+                    <th></th>
+                </table>
+                {% else %}
+                    Be the first to <a href="{% url 'create_edit_prospectus' %}">create a prospectus!</a>
+                {% endif %}
+            </div>
+        </div>
 	{% endif %}
 {% endblock %}

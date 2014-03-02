@@ -8,6 +8,7 @@ urlpatterns = patterns('',
     url(r'^admin/', include(admin.site.urls)),
     url(r'^$', 'account.views.index', name='index'),
     url(r'^account/', include('account.urls')),
+    url(r'^prospectus/', include('campaign.urls')),
 )
 
 if settings.DEBUG:
