@@ -5,4 +5,5 @@ from django.conf.urls import patterns, url
 urlpatterns = patterns('account.views',
     url(r'^signup/$', 'sign_up', name='signup'),
     url(r'^logout/$', 'logout_user', name='logout'),
+    url(r'^login/$', 'log_in', name='login'),
 )
