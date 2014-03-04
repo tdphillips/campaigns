@@ -35,6 +35,7 @@ class Prospectus(models.Model):
 
 class Campaign(models.Model):
     prospectus = models.ForeignKey(Prospectus)
+    short_name = models.CharField(max_length=255)
     genre = models.CharField(max_length=255)
     description = models.TextField()
     created = models.DateTimeField(auto_now_add=True, editable=False)

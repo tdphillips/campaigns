@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 {% load compress %}
 {% load escapes %}
+{% load widget_tweaks %}
 
 {% block head_extras %}
     <script>
@@ -16,13 +17,47 @@
     <div class="container">
         <div class="row">
             <div class="col-md-10 col-md-offset-1">
-                <form action="{% url 'create_edit_prospectus' %}" method="POST">
+                <form action="{% url 'create_edit_prospectus' %}" method="POST" role="form">
                     {% csrf_token %}
                     {{ campaign_forms.management_form }}
-                    {{ prospectus_form.as_ul }}
-                    <table id="campaigns">
-                    {{ campaign_forms.as_table }}
-                    </table>
+                    <div class="form-group">
+                        {{ prospectus_form.privacy_status.label_tag }}
+                        {{ prospectus_form.privacy_status|add_class:"form-control" }}
+                    </div>
+                    <div class="form-group">
+                        <label>
+                            {{ prospectus_form.private_votes.label }}:
+                            {{ prospectus_form.private_votes }}
+                        </label>
+                        {% comment %}
+                        {{ prospectus_form.private_votes.label_tag }}
+                        {{ prospectus_form.private_votes|add_class:"form-control" }}
+                        {% endcomment %}
+                    </div>
+                    <div class="form-group">
+                        {{ prospectus_form.vote_type.label_tag }}
+                        {{ prospectus_form.vote_type|add_class:"form-control" }}
+                    </div>
+                    <div class="form-group">
+                        {{ prospectus_form.point_multiplier.label_tag }}
+                        {{ prospectus_form.point_multiplier|add_class:"form-control" }}
+                        {{ prospectus_form.id }}
+                    </div>
+                    {% for form in campaign_forms %}
+                            <div>
+                                {{ form.short_name.label_tag }}
+                                {{ form.short_name|add_class:"form-control" }}
+                            </div>
+                            <div>
+                                {{ form.genre.label_tag }}
+                                {{ form.genre|add_class:"form-control" }}
+                            </div>
+                            <div>
+                                {{ form.description.label_tag }}
+                                {{ form.description|add_class:"form-control" }}
+                                {{ form.id }}
+                            </div>
+                    {% endfor %}
                     <button id="add-another">Add another</button>
                     <input type="submit" value="Save">
                 </form>

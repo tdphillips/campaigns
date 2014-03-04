@@ -1,15 +1,23 @@
+import operator
+
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.forms import UserCreationForm
 from django.core.urlresolvers import reverse
+from django.db.models import Q
 from django.shortcuts import redirect, render_to_response
 from django.template.context import RequestContext
 from django.contrib.auth.views import logout
+
 from campaign.models import Prospectus
 
 
 def index(request):
-    # TODO: also filter on privacy
-    starred = Prospectus.objects.order_by('-stars')[:10]
+    # Public prospectuses
+    p_filter = [Q(privacy_status='PU')]
+    if request.user.is_authenticated():
+        # Registered-only prospectuses
+        p_filter.append(Q(privacy_status='RO'))
+    starred = Prospectus.objects.filter(reduce(operator.or_, p_filter)).order_by('-stars')[:10]
     count = Prospectus.objects.count()
     return render_to_response('index.html',
                               {'starred': starred,
