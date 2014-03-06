@@ -3,13 +3,14 @@ from django.shortcuts import redirect, render_to_response
 from django.template import RequestContext
 
 from campaign.forms import CampaignFormSet, ProspectusForm
-from campaign.models import PROSPECTUS_FIELD_HELP
+from campaign.models import PROSPECTUS_FIELD_HELP, Campaign
 
 
 def create_edit_prospectus(request):
     if request.method == 'POST':
         prospectus_form = ProspectusForm(request.POST)
-        campaign_formset = CampaignFormSet(request.POST)
+        campaign_formset = CampaignFormSet(request.POST,
+                                           queryset=Campaign.objects.none())
 
         if prospectus_form.is_valid():
             prospectus_form.save(commit=False)
@@ -24,7 +25,7 @@ def create_edit_prospectus(request):
                 return redirect(reverse('index'))
     else:
         prospectus_form = ProspectusForm()
-        campaign_formset = CampaignFormSet()
+        campaign_formset = CampaignFormSet(queryset=Campaign.objects.none())
     return render_to_response('campaign/new_prospectus.html',
                               {'prospectus_form': prospectus_form,
                                'campaign_forms': campaign_formset,
