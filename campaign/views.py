@@ -3,6 +3,7 @@ from django.shortcuts import redirect, render_to_response
 from django.template import RequestContext
 
 from campaign.forms import CampaignFormSet, ProspectusForm
+from campaign.models import PROSPECTUS_FIELD_HELP
 
 
 def create_edit_prospectus(request):
@@ -26,5 +27,6 @@ def create_edit_prospectus(request):
         campaign_formset = CampaignFormSet()
     return render_to_response('campaign/new_prospectus.html',
                               {'prospectus_form': prospectus_form,
-                               'campaign_forms': campaign_formset},
+                               'campaign_forms': campaign_formset,
+                               'prospectus_help': PROSPECTUS_FIELD_HELP},
                               RequestContext(request))
