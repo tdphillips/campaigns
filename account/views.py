@@ -18,10 +18,8 @@ def index(request):
         # Registered-only prospectuses
         p_filter.append(Q(privacy_status='RO'))
     starred = Prospectus.objects.filter(reduce(operator.or_, p_filter)).order_by('-stars')[:10]
-    count = Prospectus.objects.count()
     return render_to_response('index.html',
-                              {'starred': starred,
-                               'count': count},
+                              {'starred': starred},
                               RequestContext(request))
 
 
