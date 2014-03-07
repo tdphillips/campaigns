@@ -1,4 +1,5 @@
 from django.core.urlresolvers import reverse
+from django.http import Http404
 from django.shortcuts import redirect, render_to_response
 from django.template import RequestContext
 
@@ -35,6 +36,13 @@ def create_prospectus(request):
 
 def edit_prospectus(request, prospectus_id):
     prospectus = Prospectus.objects.get(id=prospectus_id)
+
+    # Ensure only the owner can edit a prospectus
+    # Allow staff to edit orphaned prospectuses
+    if not ((request.user == prospectus.owner) or
+            (prospectus.owner is None and request.user.is_staff)):
+        raise Http404()
+
     if request.method == 'POST':
         prospectus_form = ProspectusForm(request.POST, instance=prospectus)
         campaign_formset = CampaignFormSet(
