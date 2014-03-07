@@ -17,7 +17,7 @@
     <div class="container">
         <div class="row">
             <div class="col-md-5 col-md-offset-1">
-                <form action="{% url 'create_edit_prospectus' %}" method="POST" role="form">
+                <form action="{% if prospectus_form.instance.id %}{% url 'edit_prospectus' prospectus_form.instance.id %}{% else %}{% url 'create_prospectus' %}{% endif %}" method="POST" role="form">
                     {% csrf_token %}
                     {{ campaign_forms.management_form }}
                     <div class="form-group">
