@@ -5,26 +5,24 @@
 {% endblock%}
 
 {% block content %}
-	{% if user.is_authenticated %}
-		<div class="row">
-            <div class="c10 o1">
-                <h1>Welcome, {{ user.username }}!</h1>
-            </div>
+    <div class="row">
+        <div class="c10 o1">
+            <h1>Welcome{% if user.is_authenticated %}, {{ user.username }}{% endif %}!</h1>
         </div>
+    </div>
 
-        <div class="row">
-            <div class="c10 o1">
-                {% if starred.count > 0 %}
-                <h2>Top starred prospectus{{ starred.count|pluralize:'es' }}</h2>
-                    <table>
-                        {% for prospectus in starred %}
-                            <tr><td><a href="{% url 'view_prospectus' prospectus.id %}">{{ prospectus }}</a></td></tr>
-                        {% endfor %}
-                    </table>
-                {% else %}
-                    Be the first to <a href="{% url 'create_prospectus' %}">create a prospectus!</a>
-                {% endif %}
-            </div>
+    <div class="row">
+        <div class="c10 o1">
+            {% if starred.count > 0 %}
+            <h2>Top starred prospectus{{ starred.count|pluralize:'es' }}</h2>
+                <table>
+                    {% for prospectus in starred %}
+                        <tr><td><a href="{% url 'view_prospectus' prospectus.id %}">{{ prospectus }}</a></td></tr>
+                    {% endfor %}
+                </table>
+            {% else %}
+                Be the first to <a href="{% url 'create_prospectus' %}">create a prospectus!</a>
+            {% endif %}
         </div>
-	{% endif %}
+    </div>
 {% endblock %}
