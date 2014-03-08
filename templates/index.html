@@ -18,7 +18,7 @@
                 <h2>Top starred prospectus{{ starred.count|pluralize:'es' }}</h2>
                     <table>
                         {% for prospectus in starred %}
-                            <tr><td>{{ prospectus }}</td></tr>
+                            <tr><td><a href="{% url 'view_prospectus' prospectus.id %}">{{ prospectus }}</a></td></tr>
                         {% endfor %}
                     </table>
                 {% else %}

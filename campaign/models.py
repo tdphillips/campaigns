@@ -62,6 +62,16 @@ class Prospectus(models.Model):
     class Meta:
         verbose_name_plural = 'prospectuses'
 
+    def __str__(self):
+        count = self.campaign_set.count()
+        ret_val = "prospectus - contains %s option%s" % (
+            count, '' if count == 1 else 's')
+        if self.owner:
+            ret_val = "%s's %s" % (self.owner.username, ret_val)
+        else:
+            ret_val = 'Anonymous %s' % (ret_val, )
+        return ret_val
+
 
 class Campaign(models.Model):
     prospectus = models.ForeignKey(Prospectus)
