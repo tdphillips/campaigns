@@ -25,14 +25,14 @@
     </div>
     {% else %}
         <div>No campaigns are associated with this prospectus at the moment.</div>
-        {% if request.user.is_authenticated %}
-            {% if request.user == prospectus.owner %}
-                <div><a href="{% url 'edit_prospectus' prospectus.id %}">Add some now.</a></div>
-            {% elif request.user.is_staff and not prospectus.owner %}
-                <div><a href="{% url 'edit_prospectus' prospectus.id %}">Add some now.</a></div>
-            {% endif %}
-        {% else %}
-            <div><a href="{% url 'login' %}">Log into the owning account and add some now.</a></div>
+    {% endif %}
+    {% if request.user.is_authenticated %}
+        {% if request.user == prospectus.owner %}
+            <div><a href="{% url 'edit_prospectus' prospectus.id %}">Edit your prospectus now.</a></div>
+        {% elif request.user.is_staff and not prospectus.owner %}
+            <div><a href="{% url 'edit_prospectus' prospectus.id %}">Edit this anonymous prospectus now.</a></div>
         {% endif %}
+    {% else %}
+        <div><a href="{% url 'login' %}">Log into the account that owns this prospectus to edit it.</a></div>
     {% endif %}
 {% endblock %}
