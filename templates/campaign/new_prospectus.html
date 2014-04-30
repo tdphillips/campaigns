@@ -58,6 +58,7 @@
                              data-toggle="tooltip" data-placement="right" title="{{ form.description.help_text }}">
                             {{ form.description.label_tag }}
                             {{ form.description|add_class:"form-control" }}
+                            {{ form.id }}{# Enables saving of campaigns on a prospectus #}
                         </div>
                     {% endfor %}
                     <button id="add-another">Add another</button>
