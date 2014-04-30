@@ -41,9 +41,9 @@ class Prospectus(models.Model):
                                       default=PRIVACY_CHOICES[0][0],
                                       help_text='Who can see this prospectus')
     private_votes = models.BooleanField(default=False,
-                                        help_text=("Voters can't see how "
-                                                   "others voted until "
-                                                   "voting commences"))
+                                        help_text=('Can voters see how others '
+                                                   'voted before voting '
+                                                   'commences'))
     vote_type = models.CharField(max_length=10,
                                  choices=VOTE_CHOICES,
                                  default=VOTE_CHOICES[0][0],

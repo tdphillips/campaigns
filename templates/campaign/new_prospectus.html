@@ -7,6 +7,7 @@
     <script>
         var form_count = {{campaign_forms.total_form_count}};
         var form = '{{campaign_forms.empty_form|escapejs}}';
+        $('[data-toggle=tooltip]').tooltip();
     </script>
     {% compress js %}
         <script type="text/javascript" src="/static/prospectus.js"></script>
@@ -20,48 +21,48 @@
                 <form action="{% if prospectus_form.instance.id %}{% url 'edit_prospectus' prospectus_form.instance.id %}{% else %}{% url 'create_prospectus' %}{% endif %}" method="POST" role="form">
                     {% csrf_token %}
                     {{ campaign_forms.management_form }}
-                    <div class="form-group">
+                    <div class="form-group"
+                       data-toggle="tooltip" data-placement="right" title="{{ prospectus_form.privacy_status.help_text }}">
                         {{ prospectus_form.privacy_status.label_tag }}
                         {{ prospectus_form.privacy_status|add_class:"form-control" }}
                     </div>
-                    <div class="form-group">
+                    <div class="form-group"
+                         data-toggle="tooltip" data-placement="right" title="{{ prospectus_form.private_votes.help_text }}">
                         <label>
                             {{ prospectus_form.private_votes.label }}:
                             {{ prospectus_form.private_votes }}
                         </label>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group"
+                         data-toggle="tooltip" data-placement="right" title="{{ prospectus_form.vote_type.help_text }}">
                         {{ prospectus_form.vote_type.label_tag }}
                         {{ prospectus_form.vote_type|add_class:"form-control" }}
                     </div>
-                    <div class="form-group">
+                    <div class="form-group"
+                         data-toggle="tooltip" data-placement="right" title="{{ prospectus_form.point_multiplier.help_text }}">
                         {{ prospectus_form.point_multiplier.label_tag }}
                         {{ prospectus_form.point_multiplier|add_class:"form-control" }}
-                        {{ prospectus_form.id }}
                     </div>
                     {% for form in campaign_forms %}
-                            <div>
-                                {{ form.short_name.label_tag }}
-                                {{ form.short_name|add_class:"form-control" }}
-                            </div>
-                            <div>
-                                {{ form.genre.label_tag }}
-                                {{ form.genre|add_class:"form-control" }}
-                            </div>
-                            <div>
-                                {{ form.description.label_tag }}
-                                {{ form.description|add_class:"form-control" }}
-                                {{ form.id }}
-                            </div>
+                        <div class="form-group"
+                             data-toggle="tooltip" data-placement="right" title="{{ form.short_name.help_text }}">
+                            {{ form.short_name.label_tag }}
+                            {{ form.short_name|add_class:"form-control" }}
+                        </div>
+                        <div class="form-group"
+                             data-toggle="tooltip" data-placement="right" title="{{ form.genre.help_text }}">
+                            {{ form.genre.label_tag }}
+                            {{ form.genre|add_class:"form-control" }}
+                        </div>
+                        <div class="form-group"
+                             data-toggle="tooltip" data-placement="right" title="{{ form.description.help_text }}">
+                            {{ form.description.label_tag }}
+                            {{ form.description|add_class:"form-control" }}
+                        </div>
                     {% endfor %}
                     <button id="add-another">Add another</button>
                     <input type="submit" value="Save">
                 </form>
-            </div>
-            <div class="col-md-5">
-                <div class="help-block">
-                    {{ prospectus_help|make_help_text }}
-                </div>
             </div>
         </div>
     </div>
