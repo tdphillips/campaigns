@@ -1,13 +1,27 @@
 {% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block head_extras %}
+    <script type="text/javascript" src="{% static 'prospectus.js' %}"></script>
+    {% if prospectus.vote_type == 'RANK' %}
+        <link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/themes/smoothness/jquery-ui.css" />
+        <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>
+        <script type="text/javascript">
+            $(document).ready(function() {
+                $('#campaigns').sortable({items: '> div.panel'}).disableSelection();
+            });
+        </script>
+    {% endif %}
+{% endblock %}
 
 {% block content %}
     {% if prospectus.campaign_set.count %}
-    <div class="panel-group" id="accordion">
+    <div class="panel-group" id="campaigns">
         {% for campaign in prospectus.campaign_set.all %}
-        <div class="panel panel-default">
+        <div class="panel panel-default ui-state-default">
             <div class="panel-heading">
                 <h4 class="panel-title">
-                    <a data-toggle="collapse" data-parent="#accordion" href="#campaign{{ campaign.id }}">
+                    <a data-toggle="collapse" data-parent="#campaigns" href="#campaign{{ campaign.id }}">
                         <span>{{ campaign.short_name }}</span>
                         <span class="pull-right">{{ campaign.genre }}</span>
                     </a>
@@ -26,13 +40,18 @@
     {% else %}
         <div>No campaigns are associated with this prospectus at the moment.</div>
     {% endif %}
-    {% if request.user.is_authenticated %}
-        {% if request.user == prospectus.owner %}
-            <div><a href="{% url 'edit_prospectus' prospectus.id %}">Edit your prospectus now.</a></div>
-        {% elif request.user.is_staff and not prospectus.owner %}
-            <div><a href="{% url 'edit_prospectus' prospectus.id %}">Edit this anonymous prospectus now.</a></div>
+    <div class="pull-left">
+        {% if request.user.is_authenticated %}
+            {% if request.user == prospectus.owner %}
+                <a href="{% url 'edit_prospectus' prospectus.id %}">Edit your prospectus now.</a>
+            {% elif request.user.is_staff and not prospectus.owner %}
+                <a href="{% url 'edit_prospectus' prospectus.id %}">Edit this anonymous prospectus now.</a>
+            {% endif %}
+        {% else %}
+            <a href="{% url 'login' %}">Log into the account that owns this prospectus to edit it.</a>
         {% endif %}
-    {% else %}
-        <div><a href="{% url 'login' %}">Log into the account that owns this prospectus to edit it.</a></div>
+    </div>
+    {% if prospectus.campaign_set.count %}
+        <div id="vote" class="btn btn-default pull-right">Vote</div>
     {% endif %}
 {% endblock %}
