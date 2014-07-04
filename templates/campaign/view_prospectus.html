@@ -1,28 +1,33 @@
 {% extends 'base.html' %}
 {% load staticfiles %}
+{% load vote_tags %}
 
 {% block head_extras %}
     <script type="text/javascript" src="{% static 'prospectus.js' %}"></script>
-    {% if prospectus.vote_type == 'RANK' %}
-        <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>
-        <script type="text/javascript">
-            $(document).ready(function() {
+    <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>
+    <link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.0/themes/smoothness/jquery-ui.css" />
+    <script type="text/javascript">
+        $(document).ready(function() {
+            {% if prospectus.vote_type == 'RANK' %}
                 $('#campaigns').sortable({items: '> div.panel'}).disableSelection();
-            });
-        </script>
-    {% endif %}
+            {% else %}
+                enableSpinners();
+            {% endif %}
+        });
+    </script>
 {% endblock %}
 
 {% block content %}
     {% if prospectus.campaign_set.count %}
+    <div>You have <span id=""></span> out of <span id="vote-points-total">{% multiply prospectus.point_multiplier prospectus.campaign_set.count %}</span> points remaining</div>
     <div class="panel-group" id="campaigns">
         {% for campaign in prospectus.campaign_set.all %}
         <div class="panel panel-default ui-state-default">
             <div class="panel-heading">
                 <h4 class="panel-title">
                     <a data-toggle="collapse" data-parent="#campaigns" href="#campaign{{ campaign.id }}">
-                        <span>{{ campaign.short_name }}</span>
-                        <span class="pull-right">{{ campaign.genre }}</span>
+                        <span>{{ campaign.short_name }} - {{ campaign.genre }}</span>
+                        <span class="pull-right"><input type="text" class="spinner", value="0"></span>
                     </a>
                 </h4>
             </div>
